@@ -32,6 +32,8 @@ import Foundation
 //instead of an array of Strings (like in the Town example) we will have an array of Question structs
 //FORM: let Question(q: "question1", a: "answer1", q: "question2", a: "answer2")
 
+
+
 //variable for our array index - Int
 //variable for number of right answers - Int
 //variable for number of wrong answers - Int
