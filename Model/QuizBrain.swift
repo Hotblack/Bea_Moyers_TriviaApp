@@ -31,8 +31,8 @@ struct QuizBrain{
     
 //array of Question structs
 //instead of an array of Strings (like in the Town example) we will have an array of Question structs
-//FORM: let Question(q: "question1", a: "answer1", q: "question2", a: "answer2")
-    
+//FORM: let quiz = [Question(q: "question", a: "answer"), Question(q: "questions", a: "answer")]
+   
     
 //variable for our array index - Int
 //variable for number of right answers - Int
