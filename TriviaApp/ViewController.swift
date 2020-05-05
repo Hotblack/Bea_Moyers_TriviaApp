@@ -7,19 +7,65 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
+    
+    var number : Float = 0.0
+    
+    @IBOutlet var progressBar: UIView!
+    
+    
+    
+    @IBOutlet weak var questionLabel: UILabel!
+    
+    @IBOutlet weak var scoreLabel: UILabel!
+    
+    var player : AVAudioPlayer?
 
+    var myQuizBrain = QuizBrain()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        updateUI()
         // THIS FUNCTION ALWAYS RUNS WHEN THE APP LOADS
         //VERY SIMILIAR TO SETUP() IN PROCESSING
         //THIS IS WHERE WE WILL CALL/ACTIVATE OUR CUSTOM FUNCTION, UPDATEUI()
         //UPDATEUI WILL SETUP EVERYTHING FOR THE REST OF THE CODE TO WORK
+        number = number + 0.1
+        progressBar.progress = number
+         playSound(label: TrumpetSound)
     }
     
     //UPDATEUI WILL UPDATE ANY ON SCREEN ELEMENTS AS WELL AS SETUP EVERYTHING FOR OUR FIRST PLAY THROUGH
+  
+    
+    
+    
+    func playSound() {
+      guard let url = Bundle.main.url(forResource: label, withExtension: "wav") else { return }
+      do {
+          try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+          try AVAudioSession.sharedInstance().setActive(true)
+          player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+          guard let player = player else { return }
+          player.play()
+      } catch let error {
+          print(error.localizedDescription)
+      }
+  }
+    
+    
+    
     @objc func updateUI(){
+        
+        questionLabel.text = myQuizBrain.retriveQuestion()
+        scoreLabel.text = String(myQuizBrain.retrieveScore())
+        myQuizBrain.endQuiz() 
+
+            
         
         //CLEAR ANY COLOR CHANGES (FOR INSTANCE, IF THE COLOR CHANGES WHEN USER GETS QUESTION RIGHT/WRONG, WE WANT THE COLOR TO CHANGE BACK AFTER THEY ANSWER THE QUESTION
         
@@ -27,12 +73,46 @@ class ViewController: UIViewController {
         
         //UPDATE THE QUESTION THAT APPEARS ON SCREEN
         
+      
+        
+        
         //CONDITIONAL THAT WILL CHECK IF THE QUIZ IS OVER. SOME KIND ON SCREEN FEEDBACK SHOULD HAPPEN AT THIS POINT. DISPLAY SCORE, CONGRATULATE THE PLAYER, ETC
         
         
     }
     
     //IBACTION FUNCTION (TRUE AND FALSE BUTTONS SHOULD BE LINKED TO THIS FUNCTION)
+    
+    
+    @IBAction func buttonPressed(_ sender: UIButton) {
+        var answer = sender.currentTitle!
+        
+        var chosenAnswer = myQuizBrain.checkAnswer (answer: answer)
+       
+        if (arrayIndex>19) {
+        var answer = "You're done!"
+        }
+        
+        
+        
+        if chosenAnswer == true {
+            sender.backgroundColor = UIColor.green
+        }
+        else {
+            sender.backgroundColor = UIColor.red
+        }
+       
+        sender.alpha = 0.5
+           //Code should execute after 0.2 second delay.
+           DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+           //Bring's sender's opacity back up to fully opaque.
+           sender.alpha = 1.0
+       
+        
+    }
+    }
+}
+   
     
             //STORE THE CURRENTTITLE OF THE BUTTON IN A VARIABLE
     
@@ -48,5 +128,4 @@ class ViewController: UIViewController {
             //GO TO THE NEXT QUESTION
 
 
-}
 
