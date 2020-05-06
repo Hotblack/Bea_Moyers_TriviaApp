@@ -14,8 +14,8 @@ class ViewController: UIViewController {
     var number : Float = 0.0
     
     
-    @IBOutlet weak var progressView: UIView!
     
+    @IBOutlet weak var progressView: UIProgressView!
     
     @IBOutlet weak var questionLabel: UILabel!
     
