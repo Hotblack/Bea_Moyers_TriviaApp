@@ -6,6 +6,19 @@
 //  Copyright © 2020 Adam Jackrel. All rights reserved.
 //
 
+
+
+/.Trivia question sources:    // https://ecowarriorprincess.net/2018/10/facts-statistics-about-fast-fashion-inspire-ethical-fashion-advocate/
+//https://www.kqed.org/lowdown/31036/why-so-many-people-in-the-northern-triangle-are-seeking-u-s-asylum
+//https://www.sustainyourstyle.org/old-working-conditions
+//https://labs.theguardian.com/unicef-child-labour/
+//https://www.businessinsider.com/fast-fashion-environmental-impact-pollution-emissions-waste-water-2019-10#thats-because-both-the-jeans-and-the-shirt-are-made-from-a-highly-water-intensive-plant-cotton-17
+//https://attitudeorganic.com/fast-fashion-brands-to-avoid/
+//https://www.thegoodtrade.com/features/fair-trade-clothing
+//https://www.vox.com/2019/9/12/20860620/fast-fashion-zara-hm-forever-21-boohoo-environment-cost
+//https://sharecloth.com/blog/reports/apparel-overproduction
+
+
 import UIKit
 import AVFoundation
 
@@ -21,6 +34,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var scoreLabel: UILabel!
     
+    @IBOutlet weak var trueButton: UIButton!
+    
+    @IBOutlet weak var falseButton: UIButton!
+    
+    @IBOutlet weak var playAgain: UIButton!
     var player : AVAudioPlayer!
 
     var myQuizBrain = QuizBrain()
@@ -37,6 +55,7 @@ class ViewController: UIViewController {
     }
     
     @objc func updateUI(){
+        trueButton.backgroundColor = UIColor.purple
 
         number = number + 0.1
         progressView.progress = number
@@ -56,6 +75,7 @@ class ViewController: UIViewController {
         
     
     @IBAction func buttonPressed(_ sender: UIButton) {
+        timer.invalidate()
         var answer = sender.currentTitle!
         
         var chosenAnswer = myQuizBrain.checkAnswer (answer: answer)
@@ -69,7 +89,7 @@ class ViewController: UIViewController {
             sender.backgroundColor = UIColor.red
         }
         
-        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.updateUI), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.updateUI), userInfo: nil, repeats: false)
        
         sender.alpha = 0.5
            //Code should execute after 0.2 second delay.
@@ -80,7 +100,11 @@ class ViewController: UIViewController {
         
     }
     }
-  
+    
+    @IBAction func playAgain(_ sender: UIButton) {
+        myQuizBrain.arrayIndex = 0
+    }
+    
   
     func playSound(label: String) {
     guard let url = Bundle.main.url(forResource: label, withExtension: "wav") else { return }
