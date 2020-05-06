@@ -13,17 +13,18 @@ class ViewController: UIViewController {
     
     var number : Float = 0.0
     
-    @IBOutlet var progressBar: UIView!
     
+    @IBOutlet weak var progressView: UIView!
     
     
     @IBOutlet weak var questionLabel: UILabel!
     
     @IBOutlet weak var scoreLabel: UILabel!
     
-    var player : AVAudioPlayer?
+    var player : AVAudioPlayer!
 
     var myQuizBrain = QuizBrain()
+    var timer = Timer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,74 +34,42 @@ class ViewController: UIViewController {
         //VERY SIMILIAR TO SETUP() IN PROCESSING
         //THIS IS WHERE WE WILL CALL/ACTIVATE OUR CUSTOM FUNCTION, UPDATEUI()
         //UPDATEUI WILL SETUP EVERYTHING FOR THE REST OF THE CODE TO WORK
-        number = number + 0.1
-        progressBar.progress = number
-         playSound(label: TrumpetSound)
     }
-    
-    //UPDATEUI WILL UPDATE ANY ON SCREEN ELEMENTS AS WELL AS SETUP EVERYTHING FOR OUR FIRST PLAY THROUGH
-  
-    
-    
-    
-    func playSound() {
-      guard let url = Bundle.main.url(forResource: label, withExtension: "wav") else { return }
-      do {
-          try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
-          try AVAudioSession.sharedInstance().setActive(true)
-          player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
-
-          guard let player = player else { return }
-          player.play()
-      } catch let error {
-          print(error.localizedDescription)
-      }
-  }
-    
-    
     
     @objc func updateUI(){
-        
-        questionLabel.text = myQuizBrain.retriveQuestion()
-        scoreLabel.text = String(myQuizBrain.retrieveScore())
-        myQuizBrain.endQuiz() 
 
-            
+        number = number + 0.1
+        progressView.progress = number
+        myQuizBrain.endQuiz()
         
-        //CLEAR ANY COLOR CHANGES (FOR INSTANCE, IF THE COLOR CHANGES WHEN USER GETS QUESTION RIGHT/WRONG, WE WANT THE COLOR TO CHANGE BACK AFTER THEY ANSWER THE QUESTION
+        questionLabel.text = myQuizBrain.retrieveQuestion()
+        scoreLabel.text = String(myQuizBrain.retrieveScore())
         
-        //UPDATE THE PROGRESS BAR
-        
-        //UPDATE THE QUESTION THAT APPEARS ON SCREEN
-        
-      
-        
-        
-        //CONDITIONAL THAT WILL CHECK IF THE QUIZ IS OVER. SOME KIND ON SCREEN FEEDBACK SHOULD HAPPEN AT THIS POINT. DISPLAY SCORE, CONGRATULATE THE PLAYER, ETC
-        
-        
+        if (myQuizBrain.arrayIndex>19){
+            questionLabel.text = "You're done!"
+            playSound(label: "TrumpetSound")
+       
+        }
+
     }
-    
-    //IBACTION FUNCTION (TRUE AND FALSE BUTTONS SHOULD BE LINKED TO THIS FUNCTION)
-    
+
+        
     
     @IBAction func buttonPressed(_ sender: UIButton) {
         var answer = sender.currentTitle!
         
         var chosenAnswer = myQuizBrain.checkAnswer (answer: answer)
        
-        if (arrayIndex>19) {
-        var answer = "You're done!"
-        }
-        
-        
-        
+
+    
         if chosenAnswer == true {
             sender.backgroundColor = UIColor.green
         }
         else {
             sender.backgroundColor = UIColor.red
         }
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(self.updateUI), userInfo: nil, repeats: true)
        
         sender.alpha = 0.5
            //Code should execute after 0.2 second delay.
@@ -111,7 +80,25 @@ class ViewController: UIViewController {
         
     }
     }
+  
+  
+    func playSound(label: String) {
+    guard let url = Bundle.main.url(forResource: label, withExtension: "wav") else { return }
+    do {
+        try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+        try AVAudioSession.sharedInstance().setActive(true)
+        player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+        guard let player = player else { return }
+        player.play()
+    } catch let error {
+        print(error.localizedDescription)
+    }
 }
+  
+  
+}
+
    
     
             //STORE THE CURRENTTITLE OF THE BUTTON IN A VARIABLE

@@ -60,21 +60,22 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="90L-7w-AMt">
+                                <rect key="frame" x="83" y="447" width="150" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9mw-bD-mps">
-                                <rect key="frame" x="182" y="80" width="195" height="84"/>
+                                <rect key="frame" x="169" y="73" width="195" height="187"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
                             </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Hfp-dM-zAT">
-                                <rect key="frame" x="132" y="860" width="150" height="2"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </progressView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.49486413800373774" blue="0.77746392255205332" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
                         <outlet property="progressBar" destination="8bC-Xf-vdC" id="aVg-6p-sf5"/>
+                        <outlet property="progressView" destination="8bC-Xf-vdC" id="iiz-fL-LF6"/>
                         <outlet property="questionLabel" destination="rWy-xB-As0" id="u7s-oY-SfF"/>
                         <outlet property="scoreLabel" destination="J4n-7M-nBu" id="lNW-0m-OhD"/>
                     </connections>

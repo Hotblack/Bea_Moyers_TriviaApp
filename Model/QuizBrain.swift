@@ -64,7 +64,7 @@ struct QuizBrain{
         }
     }
     
-    func retriveQuestion() -> String {
+    func retrieveQuestion() -> String {
         return (Quiz()[arrayIndex].text)
     }
     func progress () -> Float {
