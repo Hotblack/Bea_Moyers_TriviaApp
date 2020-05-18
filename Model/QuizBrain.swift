@@ -29,7 +29,7 @@ import Foundation
 //begin struct
 struct QuizBrain{
     
-    let Quiz = {
+    let quiz =
         [Question(q: "Paying living wages to garment workers would cause a huge increase in the average retail price of a piece of clothing.", a: "False"),
         Question(q: "Over 50% of workers within the fashion industry are not paid the minimum wage in countries like India and the Philippines.", a: "True"),
         Question(q: "In most of the manufacturing countries, the minimum wage represents between half and a fifth of the living wage.", a: "True"),
@@ -49,36 +49,59 @@ struct QuizBrain{
         Question(q: "The 2013 Rana Plaza factory collapse killing over 1,100 workers caused most large fashion companies to reassess the way that they source their products. ", a: "False"),
         Question(q: "The entire European Union emits more greenhouse gases than the apparel and footwear industry.", a:"False"),
         Question(q: "Tiny plastic microfibers, shed by synthetic garments during laundry, are inundating our water supply and food chain.", a: "True"),
-        Question(q: "Over 50% of fast fashion produced is disposed of in under a year.", a: "True" )]
-    }
-    var arrayIndex : Int = 0
+        Question(q: "Over 50% of fast fashion produced is disposed of in under a year.", a: "True" )
+    ]
+    
+    var arrayIndex : Int = -1
     var scoreRight : Int = 0
     var endOfQuiz : Bool = false
     
-    func checkAnswer (answer: String)-> Bool {
-        if (answer == Quiz()[arrayIndex].answer){
+    //var endOfQuiz : Int = 0
+    
+    func checkAnswer (answer: String) -> Bool {
+        
+        print("the user answer is \(answer)")
+        print("the arrayIndex is \(arrayIndex)")
+        print("the actual answer is \(quiz[arrayIndex])")
+        
+        if (answer == quiz[arrayIndex].answer){
+            print("answer is true")
             return true
         }
         else {
+            print("answer is false")
             return false
         }
     }
     
     func retrieveQuestion() -> String {
-        return (Quiz()[arrayIndex].text)
+        return (quiz[arrayIndex].text)
     }
     func progress () -> Float {
-        return Float (arrayIndex/20)
+        return Float (Float(arrayIndex) / Float(20))
     }
     func retrieveScore() -> Int {
         return Int (scoreRight)
     }
     
     mutating func endQuiz (){
-        arrayIndex  = arrayIndex + 1
-        if (arrayIndex > 19){
-           arrayIndex = 0
-        }
+        
+        if (arrayIndex < quiz.count - 1){
+              arrayIndex += 1;
+        
+          }
+              //end of quiz
+          else{
+              arrayIndex = 0;
+              endOfQuiz = true;
+             
+          }
+        
+//        print("endQuiz")
+//        arrayIndex  = arrayIndex + 1
+//        if (arrayIndex > 19){
+//           arrayIndex = 0
+//        }
     }
     
 //array of Question structs

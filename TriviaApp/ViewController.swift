@@ -7,16 +7,28 @@
 //
 
 
+//------------------------------------------------------
 
-/.Trivia question sources:    // https://ecowarriorprincess.net/2018/10/facts-statistics-about-fast-fashion-inspire-ethical-fashion-advocate/
-//https://www.kqed.org/lowdown/31036/why-so-many-people-in-the-northern-triangle-are-seeking-u-s-asylum
-//https://www.sustainyourstyle.org/old-working-conditions
-//https://labs.theguardian.com/unicef-child-labour/
-//https://www.businessinsider.com/fast-fashion-environmental-impact-pollution-emissions-waste-water-2019-10#thats-because-both-the-jeans-and-the-shirt-are-made-from-a-highly-water-intensive-plant-cotton-17
-//https://attitudeorganic.com/fast-fashion-brands-to-avoid/
-//https://www.thegoodtrade.com/features/fair-trade-clothing
-//https://www.vox.com/2019/9/12/20860620/fast-fashion-zara-hm-forever-21-boohoo-environment-cost
-//https://sharecloth.com/blog/reports/apparel-overproduction
+//TEACHERS FEEDBACK
+
+//DESIGN: LOVE THE DESIGN. VERY COLORFUL, BRIGHT, EASY TO READ AND FRIENDLY
+//DESIGN FIXES: THE QUESTION LABEL IS SET TO A VERY LARGE FONT SIZE. REDUCED BY 50% AND IT WORKS GREAT
+//RESEARCH: EXCELLENT QUESTIONS - GREAT RESEARCH AND EYE OPENING FACTS!
+//RESEARCH FIX: BE SURE TO INCLUDE CITATIONS, ACKS, AND AUTHORSHIP! VERY VERY VERY IMPORTANT!!!!
+//CODE: NEARLY GOT EVERYTHING! YOU WERE MISSING SOME PARTS, BUT I VERY MUCH APPRECIATE THE EFFORT YOU PUT INTO THE PROJECT. YOU LEARNED SO MUCH ABOUT PROGRAMMING DOING THIS PROJECT SO I HOPE YOU FEEL YOUR EFFORTS WERE WORTH IT!
+//CODE FIXES. TO FIX THE CODE YOU CAN DO THE FOLLOWING:
+
+//--------------YES, THERES SOME PROBLEMS. SOME EASY TO SOLVE, SOME DIFFICULT.------------------
+//--------------READ THROUGH MY COMMENTS AND LOOK AT THE CODE I CHANGED-------------------
+
+//THERE WAS A SMALL PROBLEM WITH THE LINK FROM THE STORYBOARD TO THE VIEW CONTROLLER. THE STORYBOARD SHOULD ALWAYS BE NAMED 'VIEW' AND BE LINKED THE VIEW CONTROLLER. YOUR STORYBOARD WAS NAMED 'progressBar' AND THUS WAS NOT BEING LINKED TO THE VIEW CONTROLLER
+//USING A VARIABLE WITH A CAPITAL LETTER IS NEVER ADVISED. ALL VARIABLES SHOULD BEGIN WITH A LOWER CASE LETTER. INSIDE OF QUIZBRAIN() THE ARRAY 'Quiz' SHOULD HAVE BEEN NAMED 'quiz'. THIS BUG CREATED OTHER PROBLEMS, THUS IT IS WHY CHECKANSWER() AND ENDQUIZ() WOULD NOT FUNCTION PROPERLY
+//QUIZ ARRAY HAD EXTRA CURLY BRACKETS AROUND THE ARRAY. ARRAYS DO NOT USE CURLY BRACKETS. NOR THE KEY:VALUE PAIRS INSIDE THE ARRAY
+//CHECKANSWER() WAS MATCHING IF THE BUTTON'S NAME MATCHED THE ANSWER VALUE INSIDE THE ARRAY. THE TRUE AND FALSE BUTTONS ARE NAMED, 'TRUE' AND 'FALSE'...HOWEVER, THE ANSWER VALUE INSIDE THE ARRAY IS NAMED, 'True' AND 'False'. EVEN DIFFERENCES IN CASE MAKE A DIFFERENCE
+//ONLY THE TRUE BUTTON WAS REFERENCED INSIDE OF UPDATEUI(), THUS ONLY ONE BUTTON WOULD REVERT BACK TO ITS ORIGINAL COLOR
+//CHECKING FOR THE END OF THE QUIZ MUST HAPPEN AT THE RIGHT POINT. THE ARRAYINDEX WAS UPDATING PAST THE CHECEK IN UPDATEUI. USED ENDOFQUIZ INSIDE OF QUIZBRAIN TO DETERMINE WHEN THE ARRAYINDEX WAS AT 19 THEN USED THAT AS A FLAG DURING THE CHECK INSIDE OF UPDATEUI
+//PROGRESS BAR MUST ONLY TAKE A FLOAT. IF YOU DIVIDE TWO INTS YOU GET ANOTHER INT. IF YOU WANT TO DIVIDE TWO INTS AND SAVE IT AS A FLOAT, THEN CAST/CONVERT THE INTS TO FLOATS BEFORE DIVISION AND STORE THE RESULTING VALUE INSIDE OF A FLOAT VARIABLE
+//------------------------------------------------------
 
 
 import UIKit
@@ -47,7 +59,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        updateUI()
+       updateUI()
         // THIS FUNCTION ALWAYS RUNS WHEN THE APP LOADS
         //VERY SIMILIAR TO SETUP() IN PROCESSING
         //THIS IS WHERE WE WILL CALL/ACTIVATE OUR CUSTOM FUNCTION, UPDATEUI()
@@ -55,18 +67,26 @@ class ViewController: UIViewController {
     }
     
     @objc func updateUI(){
-        trueButton.backgroundColor = UIColor.purple
+        print("updateUI")
+        trueButton.backgroundColor = UIColor.clear
+        falseButton.backgroundColor = UIColor.clear
 
-        number = number + 0.1
-        progressView.progress = number
+
+        //number = number + 0.1
+        progressView.progress = myQuizBrain.progress()
         myQuizBrain.endQuiz()
+        //myQuizBrain.arrayIndex
+       
         
         questionLabel.text = myQuizBrain.retrieveQuestion()
         scoreLabel.text = String(myQuizBrain.retrieveScore())
         
-        if (myQuizBrain.arrayIndex>19){
+        if (myQuizBrain.endOfQuiz == true){
+            print("here")
+            print(myQuizBrain.arrayIndex)
             questionLabel.text = "You're done!"
             playSound(label: "TrumpetSound")
+            myQuizBrain.arrayIndex = 0
        
         }
 
@@ -75,7 +95,9 @@ class ViewController: UIViewController {
         
     
     @IBAction func buttonPressed(_ sender: UIButton) {
-        timer.invalidate()
+       
+      //  timer.invalidate()
+       
         var answer = sender.currentTitle!
         
         var chosenAnswer = myQuizBrain.checkAnswer (answer: answer)
@@ -83,9 +105,12 @@ class ViewController: UIViewController {
 
     
         if chosenAnswer == true {
+            print("CORRECT")
             sender.backgroundColor = UIColor.green
+             myQuizBrain.scoreRight += 1
         }
         else {
+            print("NOT CORRECT")
             sender.backgroundColor = UIColor.red
         }
         
